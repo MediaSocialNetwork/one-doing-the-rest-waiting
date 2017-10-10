@@ -18,19 +18,24 @@ app.get('/:key', (req, res, next) => {
   // other RPCs later with same key will wait until first RPC finish
 
   // interface
-  rpc
-    .create({
-      command: 'download',
+  let channel = app.get('rpc');
+
+  channel
+    .command('download', {
       data: {
         key
       }
     })
     .timeout(1e3)
     .waitFor(key)
-    .onRespond(response => {
+    .onResponse(response => {
       console.log(response);
     })
     .call();
+});
+
+rpc.lookForConsumer(channel => {
+  app.set('rpc', channel);
 });
 
 app.listen(port, () => console.log(`Producer started at :${port}`));
