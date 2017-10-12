@@ -1,6 +1,6 @@
 const kue = require('kue');
 
-const Channel = require('./Channel');
+const OutcomeChannel = require('./Channel');
 
 class Producer {
   static create(props) {
@@ -19,7 +19,7 @@ class Producer {
           queue: this._queue
         });
 
-        let channel = Channel.create(props);
+        let channel = OutcomeChannel.create(props);
 
         done(channel);
       })

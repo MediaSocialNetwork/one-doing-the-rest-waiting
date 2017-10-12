@@ -1,10 +1,14 @@
+const pick = require('object.pick');
+
 class Command {
-  static create() {
-    return new Command();
+  static create(props) {
+    return new Command(props);
   }
 
-  constructor(props) {
-
+  constructor({ name, data, channel }) {
+    this.name = name;
+    this.data = data;
+    this._channel = channel;
   }
 
   timeout(duration) {
@@ -25,8 +29,12 @@ class Command {
     return this;
   }
 
-  call() {
+  call(done) {
+    this._channel.send(this, done);
+  }
 
+  serialize() {
+    return pick(this, [ 'name', 'data', 'key' ]);
   }
 }
 

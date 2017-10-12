@@ -35,7 +35,7 @@ app.get('/:key', (req, res, next) => {
 });
 
 producer.lookForConsumer(channel => {
-  console.log('lookForConsumer', channel.toObject());
+  console.log('lookForConsumer', channel.id);
 
   app.set('rpc', channel);
 });

@@ -1,7 +1,5 @@
 const pick = require('object.pick');
 
-const Command = require('./Command');
-
 class Channel {
   static create(props) {
     return new Channel(props);
@@ -12,15 +10,7 @@ class Channel {
     this._queue = queue;
   }
 
-  command() {
-    return Command.create();
-  }
-
-  onRequest(cb) {
-    this.onRequest = cb;
-  }
-
-  toObject() {
+  serialize() {
     return pick(this, ['id']);
   }
 }

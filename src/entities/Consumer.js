@@ -1,7 +1,7 @@
 const kue = require('kue');
 const uuid = require('uuid');
 
-const Channel = require('./Channel');
+const IncomeChannel = require('./IncomeChannel');
 
 class Consumer {
   static create(props) {
@@ -24,14 +24,14 @@ class Consumer {
       return;
     }
 
-    let channel = Channel.create({
+    let channel = IncomeChannel.create({
       id: uuid.v4(),
       queue: this._queue
     });
 
     this._registration(channel);
 
-    done(null, channel.toObject());
+    done(null, channel.serialize());
   }
 }
 
