@@ -1,6 +1,10 @@
-const rpc = require('../src');
+const consumer = require('../src').Consumer.create();
 
-rpc.registerConsumer(channel => {
+consumer.register(channel => {
+  console.log('registerConsumer', channel);
+
+  return;
+
   channel.onRequest((command, done) => {
     // do somthing
     setTimeout(() => {

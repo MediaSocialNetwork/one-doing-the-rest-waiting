@@ -1,7 +1,7 @@
 const express = require('express');
 const nocache = require('nocache');
 
-const rpc = require('../src');
+const producer = require('../src').Producer.create();
 
 const app = express();
 const port = 3002;
@@ -34,7 +34,9 @@ app.get('/:key', (req, res, next) => {
     .call();
 });
 
-rpc.lookForConsumer(channel => {
+producer.lookForConsumer(channel => {
+  console.log('lookForConsumer', channel);
+
   app.set('rpc', channel);
 });
 
