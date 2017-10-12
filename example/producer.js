@@ -35,9 +35,9 @@ app.get('/:key', (req, res, next) => {
 });
 
 producer.lookForConsumer(channel => {
-  console.log('lookForConsumer', channel);
+  console.log('lookForConsumer', channel.toObject());
 
   app.set('rpc', channel);
 });
 
-app.listen(port, () => console.log(`Producer started at :${port}`));
+// app.listen(port, () => console.log(`Producer started at :${port}`));

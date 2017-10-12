@@ -1,5 +1,7 @@
 const kue = require('kue');
 
+const Channel = require('./Channel');
+
 class Producer {
   static create(props) {
     return new Producer(props);
@@ -12,7 +14,13 @@ class Producer {
   lookForConsumer(done, interval = 1000) {
     this._queue
       .create('request-channel')
-      .on('complete', channel => {
+      .on('complete', data => {
+        let props = Object.assign(data, {
+          queue: this._queue
+        });
+
+        let channel = Channel.create(props);
+
         done(channel);
       })
       .on('failed', err => {

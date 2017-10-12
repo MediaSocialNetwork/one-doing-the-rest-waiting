@@ -1,6 +1,8 @@
 const kue = require('kue');
 const uuid = require('uuid');
 
+const Channel = require('./Channel');
+
 class Consumer {
   static create(props) {
     return new Consumer(props);
@@ -22,11 +24,14 @@ class Consumer {
       return;
     }
 
-    let channel = { id: uuid.v4() };
+    let channel = Channel.create({
+      id: uuid.v4(),
+      queue: this._queue
+    });
 
     this._registration(channel);
 
-    done(null, channel);
+    done(null, channel.toObject());
   }
 }
 

@@ -1,7 +1,7 @@
 const consumer = require('../src').Consumer.create();
 
 consumer.register(channel => {
-  console.log('registerConsumer', channel);
+  console.log('registerConsumer', channel.toObject());
 
   return;
 
