@@ -14,8 +14,13 @@ class Consumer {
     this._queue.process('request-channel', this._provideChannel.bind(this));
   }
 
-  register(registration) {
-    this._registration = registration;
+  register(callback) {
+    this._registration = {
+      channel: IncomeChannel.create({
+        queue: this._queue
+      }),
+      callback: callback
+    };
   }
 
   _provideChannel(job, done) {
@@ -24,14 +29,11 @@ class Consumer {
       return;
     }
 
-    let channel = IncomeChannel.create({
-      id: uuid.v4(),
-      queue: this._queue
-    });
+    let { callback, channel } = this._registration;
 
-    this._registration(channel);
+    callback(channel);
 
-    done(null, channel.serialize());
+    done(null, channel.id);
   }
 }
 

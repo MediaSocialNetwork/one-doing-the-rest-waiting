@@ -1,18 +1,24 @@
 const pick = require('object.pick');
+const uuid = require('uuid');
 
 class Command {
   static create(props) {
     return new Command(props);
   }
 
-  constructor({ name, data, channel }) {
-    this.name = name;
+  constructor({ id, channel, dest, src, type, data, config }) {
+    this.id = id || uuid.v4();
+
+    this.dest = dest;
+    this.src = src;
+    this.type = type;
     this.data = data;
+
     this._channel = channel;
   }
 
-  timeout(duration) {
-    this.timeout = duration;
+  timeout(ttl) {
+    this.ttl = ttl;
 
     return this;
   }
@@ -23,8 +29,8 @@ class Command {
     return this;
   }
 
-  onResponse(cb) {
-    this.onResponse = cb;
+  onResponse(handler) {
+    this._handler = handler;
 
     return this;
   }
@@ -34,7 +40,7 @@ class Command {
   }
 
   serialize() {
-    return pick(this, [ 'name', 'data', 'key' ]);
+    return pick(this, [ 'id', 'dest', 'src', 'type', 'data', 'key' ]);
   }
 }
 

@@ -3,12 +3,12 @@ const consumer = require('../src').Consumer.create();
 consumer.register(channel => {
   console.log('registerConsumer', channel.id);
 
-  return;
-
   channel.onRequest((command, done) => {
+    console.log('onRequest', command);
+
     // do somthing
     setTimeout(() => {
-      done();
-    }, 1e3);
+      done('hahaha');
+    }, 5e3);
   });
 });

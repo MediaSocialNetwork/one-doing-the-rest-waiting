@@ -7,12 +7,10 @@ const app = express();
 const port = 3002;
 
 app.use(nocache())
-app.get('/:key', (req, res, next) => {
-  let { key } = req.params;
+app.get('/favicon.ico', (req, res, next) => res.sendStatus(404));
+app.get('/:hog', (req, res, next) => {
+  let { hog } = req.params;
 
-  res.json({
-    key
-  });
 
   // RPC with message identified by {key}
   // other RPCs later with same key will wait until first RPC finish
@@ -22,22 +20,21 @@ app.get('/:key', (req, res, next) => {
 
   channel
     .command('download', {
-      data: {
-        key
-      }
+      time: Date.now()
     })
-    .timeout(1e3)
-    .waitFor(key)
-    .onResponse(response => {
-      console.log(response);
+    .waitFor(hog)
+    .onResponse(command => {
+      console.log('onResponse', command);
+
+      res.json(command);
     })
     .call();
 });
 
-producer.lookForConsumer(channel => {
-  console.log('lookForConsumer', channel.id);
+producer.discovery(channel => {
+  console.log('discovery channel', channel._bind);
 
   app.set('rpc', channel);
-});
 
-// app.listen(port, () => console.log(`Producer started at :${port}`));
+  app.listen(port, () => console.log(`Producer started at :${port}`));
+});

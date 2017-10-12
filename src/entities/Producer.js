@@ -1,6 +1,6 @@
 const kue = require('kue');
 
-const OutcomeChannel = require('./Channel');
+const OutcomeChannel = require('./OutcomeChannel');
 
 class Producer {
   static create(props) {
@@ -11,15 +11,13 @@ class Producer {
     this._queue = kue.createQueue();
   }
 
-  lookForConsumer(done, interval = 1000) {
+  discovery(done, interval = 1000) {
     this._queue
       .create('request-channel')
-      .on('complete', data => {
-        let props = Object.assign(data, {
+      .on('complete', consumerChannelId => {
+        let channel = OutcomeChannel.create({
           queue: this._queue
-        });
-
-        let channel = OutcomeChannel.create(props);
+        }).bindTo(consumerChannelId);
 
         done(channel);
       })

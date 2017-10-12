@@ -8,20 +8,44 @@ class OutcomeChannel extends Channel {
 
   constructor(props) {
     super(props);
-  }
 
-  command(name, data) {
-    return Command.create({
-      name,
-      data,
-      channel: this
+    this._sentCommands = {};
+
+    this._listen(`channel:${this.id}:inbox`, data => {
+      let command = this._sentCommands[data.id];
+
+      if (command) {
+        this._sentCommands[data.id] = null;
+
+        command._handler(Command.create(data));
+      }
     });
   }
 
-  send(command, done) {
-    this._queue
-      .create(`channel:${this.id}:command`, command.serialize())
-      .save(done);
+  bindTo(id) {
+    this._bind = id;
+
+    return this;
+  }
+
+  command(type, data, config) {
+    let src = `channel:${this.id}:inbox`;
+    let dest = `channel:${this._bind}:inbox`;
+
+    return Command.create({
+      channel: this,
+      dest,
+      src,
+      type,
+      data,
+      config
+    });
+  }
+
+  send(command) {
+    super._send(command, job => {
+      this._sentCommands[command.id] = command;
+    });
   }
 }
 
