@@ -8,26 +8,23 @@ class Consumer {
 
   constructor(props) {
     this._queue = kue.createQueue();
-    this._waitingList = [];
 
     this._queue.process('request-channel', this._provideChannel.bind(this));
   }
 
   register(registration) {
-    this._waitingList.push(registration);
+    this._registration = registration;
   }
 
   _provideChannel(job, done) {
-    let registration = this._waitingList.pop();
-
-    if (!registration) {
+    if (!this._registration) {
       done(new Error('No channel registered'));
       return;
     }
 
     let channel = { id: uuid.v4() };
 
-    registration(channel);
+    this._registration(channel);
 
     done(null, channel);
   }
