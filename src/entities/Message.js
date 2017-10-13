@@ -1,9 +1,17 @@
 const pick = require('object.pick');
 const uuid = require('uuid');
 
-class Command {
+class Message {
   static create(props) {
-    return new Command(props);
+    return new Message(props);
+  }
+
+  static from(...args) {
+    let props = args.reduce((props, arg) => {
+      return Object.assign(props, arg);
+    }, {});
+
+    return Message.create(props);
   }
 
   constructor({ id, channel, dest, src, type, data, config = {} }) {
@@ -47,6 +55,10 @@ class Command {
   get key() {
     return this.config.waitFor || this.id;
   }
+
+  get value() {
+    return pick(this, [ 'type', 'data' ]);
+  }
 }
 
-module.exports = Command;
+module.exports = Message;

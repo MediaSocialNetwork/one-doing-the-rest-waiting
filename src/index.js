@@ -1,4 +1,4 @@
 module.exports = {
-  Consumer: require('./entities/Consumer'),
-  Producer: require('./entities/Producer')
+  createConsumer: require('./entities/Consumer').create,
+  createProducer: require('./entities/Producer').create
 };

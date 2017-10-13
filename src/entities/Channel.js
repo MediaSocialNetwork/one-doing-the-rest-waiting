@@ -1,7 +1,7 @@
 const pick = require('object.pick');
 const uuid = require('uuid');
 
-const Command = require('./Command');
+const Message = require('./Message');
 
 class Channel {
   static create(props) {
@@ -20,24 +20,24 @@ class Channel {
   _listen(source, handler) {
     this._queue
       .process(source, (job, done) => {
-        let command = Command.create(job.data);
-        console.log(`channel ${this.id} received [${command.id}]`);
+        let message = Message.create(job.data);
+        console.log(`channel ${this.id} received [${message.id}]`);
 
         done();
 
         if (handler) {
-          handler(command);
+          handler(message);
         }
       });
   }
 
-  _send(command, done) {
-    let { dest } = command;
+  _send(message, done) {
+    let { dest } = message;
 
     let job = this._queue
-      .create(dest, command.serialize())
+      .create(dest, message.serialize())
       .save(() => {
-        console.log(`channel ${this.id} sent [${command.id}]`);
+        console.log(`channel ${this.id} sent [${message.id}]`);
 
         if (done) {
           done(job);

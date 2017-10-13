@@ -1,21 +1,22 @@
 const kue = require('kue');
 
-const OutcomeChannel = require('./OutcomeChannel');
+const ProducingChannel = require('./ProducingChannel');
 
 class Producer {
   static create(props) {
     return new Producer(props);
   }
 
-  constructor(props) {
-    this._queue = kue.createQueue();
+  constructor(props = {}) {
+    this._queue = kue.createQueue(props.redis);
   }
 
   discovery(done, interval = 1000) {
     this._queue
       .create('request-channel')
+      .ttl(interval)
       .on('complete', consumerChannelId => {
-        let channel = OutcomeChannel.create({
+        let channel = ProducingChannel.create({
           queue: this._queue
         }).bindTo(consumerChannelId);
 
@@ -23,12 +24,17 @@ class Producer {
       })
       .on('failed', err => {
         // retry
-        setTimeout(
-          this.lookForConsumer.bind(this, done, interval),
-          interval
-        );
+        console.log(`Discovery again in ${interval}ms`);
+        this.retry(done, interval);
       })
       .save();
+  }
+
+  retry(done, interval) {
+    setTimeout(
+      this.discovery.bind(this, done, interval),
+      interval
+    );
   }
 }
 

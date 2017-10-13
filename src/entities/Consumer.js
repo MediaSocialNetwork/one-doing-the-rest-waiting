@@ -1,22 +1,22 @@
 const kue = require('kue');
 const uuid = require('uuid');
 
-const IncomeChannel = require('./IncomeChannel');
+const ConsumingChannel = require('./ConsumingChannel');
 
 class Consumer {
   static create(props) {
     return new Consumer(props);
   }
 
-  constructor(props) {
-    this._queue = kue.createQueue();
+  constructor(props = {}) {
+    this._queue = kue.createQueue(props.redis);
 
     this._queue.process('request-channel', this._provideChannel.bind(this));
   }
 
   register(callback) {
     this._registration = {
-      channel: IncomeChannel.create({
+      channel: ConsumingChannel.create({
         queue: this._queue
       }),
       callback: callback

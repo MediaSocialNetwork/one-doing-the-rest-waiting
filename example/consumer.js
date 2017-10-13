@@ -1,4 +1,4 @@
-const consumer = require('../src').Consumer.create();
+const consumer = require('../src').createConsumer();
 
 consumer.register(channel => {
   console.log('registerConsumer', channel.id);

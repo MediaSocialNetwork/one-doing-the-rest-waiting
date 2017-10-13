@@ -1,7 +1,7 @@
 const express = require('express');
 const nocache = require('nocache');
 
-const producer = require('../src').Producer.create();
+const producer = require('../src').createProducer();
 
 const app = express();
 const port = process.env.PORT || 3002;
@@ -19,14 +19,12 @@ app.get('/:hog', (req, res, next) => {
   let channel = app.get('rpc');
 
   channel
-    .command('download', {
+    .request('download', {
       time: Date.now()
     })
     .waitFor(hog)
-    .onResponse(command => {
-      // console.log('onResponse', command);
-
-      res.json(command);
+    .onResponse(response => {
+      res.json(response);
     })
     .call();
 });
