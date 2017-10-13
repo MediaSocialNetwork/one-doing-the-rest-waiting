@@ -20,7 +20,7 @@ app.get('/:hog', (req, res, next) => {
 
   channel
     .request('download', {
-      time: Date.now()
+      requestTime: Date.now()
     })
     .waitFor(hog)
     .onResponse(response => {

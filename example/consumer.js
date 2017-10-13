@@ -8,7 +8,9 @@ consumer.register(channel => {
 
     // do somthing
     setTimeout(() => {
-      done('hahaha');
+      done({
+        repsonseTime: Date.now()
+      });
     }, 5e3);
   });
 });
