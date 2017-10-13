@@ -6,25 +6,26 @@ class Command {
     return new Command(props);
   }
 
-  constructor({ id, channel, dest, src, type, data, config }) {
+  constructor({ id, channel, dest, src, type, data, config = {} }) {
     this.id = id || uuid.v4();
 
     this.dest = dest;
     this.src = src;
     this.type = type;
     this.data = data;
+    this.config = config;
 
     this._channel = channel;
   }
 
-  timeout(ttl) {
-    this.ttl = ttl;
+  ttl(ttl) {
+    this.config.ttl = ttl;
 
     return this;
   }
 
   waitFor(key) {
-    this.key = key;
+    this.config.waitFor = key;
 
     return this;
   }
@@ -40,7 +41,11 @@ class Command {
   }
 
   serialize() {
-    return pick(this, [ 'id', 'dest', 'src', 'type', 'data', 'key' ]);
+    return pick(this, [ 'id', 'dest', 'src', 'type', 'data', 'config' ]);
+  }
+
+  get key() {
+    return this.config.waitFor || this.id;
   }
 }
 

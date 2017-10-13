@@ -15,14 +15,13 @@ class IncomeChannel extends Channel {
   }
 
   _handleRequest(command) {
-    let key = command.key || 'xxx';
-    let pendingList = this._getPendingListByKey(key);
+    let pendingList = this._getPendingListByKey(command.key);
 
     pendingList.push(command);
 
     if (pendingList.length === 1) {
       this._handler(command, response => {
-        this._replyForKey(key, response);
+        this._replyForKey(command.key, response);
       });
     }
   }
@@ -60,6 +59,8 @@ class IncomeChannel extends Channel {
 
   _replyForKey(key, response) {
     let pendingList = this._getPendingListByKey(key);
+
+    console.log(`sending response for ${pendingList.length} commands wait for ${key}`);
 
     pendingList.forEach(command => {
       this._send(Command.create({

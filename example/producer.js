@@ -4,13 +4,13 @@ const nocache = require('nocache');
 const producer = require('../src').Producer.create();
 
 const app = express();
-const port = 3002;
+const port = process.env.PORT || 3002;
 
 app.use(nocache())
 app.get('/favicon.ico', (req, res, next) => res.sendStatus(404));
+app.get('/robots.txt', (req, res, next) => res.sendStatus(404));
 app.get('/:hog', (req, res, next) => {
   let { hog } = req.params;
-
 
   // RPC with message identified by {key}
   // other RPCs later with same key will wait until first RPC finish
@@ -24,7 +24,7 @@ app.get('/:hog', (req, res, next) => {
     })
     .waitFor(hog)
     .onResponse(command => {
-      console.log('onResponse', command);
+      // console.log('onResponse', command);
 
       res.json(command);
     })
