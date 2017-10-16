@@ -1,7 +1,9 @@
 const express = require('express');
 const nocache = require('nocache');
 
-const producer = require('../src').createProducer();
+const producer = require('../src').createProducer({
+  prefix: 'example:'
+});
 
 const app = express();
 const port = process.env.PORT || 3002;

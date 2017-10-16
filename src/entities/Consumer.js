@@ -10,13 +10,15 @@ class Consumer {
 
   constructor(props = {}) {
     this._queue = kue.createQueue(props.redis);
+    this._prefix = props.prefix || '';
 
-    this._queue.process('request-channel', this._provideChannel.bind(this));
+    this._queue.process(`${this._prefix}request-channel`, this._provideChannel.bind(this));
   }
 
   register(callback) {
     this._registration = {
       channel: ConsumingChannel.create({
+        prefix: this._prefix,
         queue: this._queue
       }),
       callback: callback

@@ -1,3 +1,4 @@
+const debug = require('debug')('odtrw');
 const kue = require('kue');
 
 const ProducingChannel = require('./ProducingChannel');
@@ -9,14 +10,16 @@ class Producer {
 
   constructor(props = {}) {
     this._queue = kue.createQueue(props.redis);
+    this._prefix = props.prefix || '';
   }
 
   discovery(done, interval = 1000) {
     this._queue
-      .create('request-channel')
+      .create(`${this._prefix}request-channel`)
       .ttl(interval)
       .on('complete', consumerChannelId => {
         let channel = ProducingChannel.create({
+          prefix: this._prefix,
           queue: this._queue
         }).bindTo(consumerChannelId);
 
@@ -24,7 +27,7 @@ class Producer {
       })
       .on('failed', err => {
         // retry
-        console.log(`Discovery again in ${interval}ms`);
+        debug(`Discovery again in ${interval}ms`);
         this.retry(done, interval);
       })
       .save();

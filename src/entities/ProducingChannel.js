@@ -11,7 +11,7 @@ class ProducingChannel extends Channel {
 
     this._sentCommands = {};
 
-    this._listen(`channel:${this.id}:inbox`, this._handleResponse.bind(this));
+    this._listen(`${this.prefix}channel:${this.id}:inbox`, this._handleResponse.bind(this));
   }
 
   _handleResponse(data) {
@@ -33,8 +33,8 @@ class ProducingChannel extends Channel {
     return Message.from({
       channel: this,
     }, {
-      dest: `channel:${this._bind}:inbox`,
-      src: `channel:${this.id}:inbox`
+      dest: `${this.prefix}channel:${this._bind}:inbox`,
+      src: `${this.prefix}channel:${this.id}:inbox`
     }, {
       type,
       data,

@@ -1,3 +1,5 @@
+const debug = require('debug')('odtrw');
+
 const Channel = require('./Channel');
 const Message = require('./Message');
 
@@ -10,7 +12,7 @@ class ConsumingChannel extends Channel {
     super(props);
     this._pendingLists = {};
 
-    this._listen(`channel:${this.id}:inbox`, this._handleRequest.bind(this));
+    this._listen(`${this.prefix}channel:${this.id}:inbox`, this._handleRequest.bind(this));
   }
 
   _handleRequest(message) {
@@ -36,7 +38,7 @@ class ConsumingChannel extends Channel {
   _replyForKey(key, response) {
     let pendingList = this._getPendingListByKey(key);
 
-    console.log(`sending response for ${pendingList.length} messages wait for ${key}`);
+    debug(`sending response for ${pendingList.length} message(s) wait for ${key}`);
 
     pendingList.forEach(message => {
       this

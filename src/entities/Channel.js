@@ -1,3 +1,4 @@
+const debug = require('debug')('odtrw');
 const pick = require('object.pick');
 const uuid = require('uuid');
 
@@ -8,9 +9,10 @@ class Channel {
     return new Channel(props);
   }
 
-  constructor({ queue }) {
+  constructor({ queue, prefix }) {
     this.id = uuid.v4();
     this._queue = queue;
+    this._prefix = prefix;
   }
 
   serialize() {
@@ -21,7 +23,8 @@ class Channel {
     this._queue
       .process(source, (job, done) => {
         let message = Message.create(job.data);
-        console.log(`channel ${this.id} received [${message.id}]`);
+
+        debug(`channel ${this.id} received [${message.id}]`);
 
         done();
 
@@ -37,7 +40,7 @@ class Channel {
     let job = this._queue
       .create(dest, message.serialize())
       .save(() => {
-        console.log(`channel ${this.id} sent [${message.id}]`);
+        debug(`channel ${this.id} sent [${message.id}]`);
 
         if (done) {
           done(job);
