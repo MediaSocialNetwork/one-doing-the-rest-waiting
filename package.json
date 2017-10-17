@@ -1,6 +1,6 @@
 {
   "name": "one-doing-the-rest-waiting",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Advanded message solution for RPC and waiting in message queue",
   "main": "src/index.js",
   "repository": "git@github.com:MediaSocialNetwork/one-doing-the-rest-waiting.git",
@@ -22,5 +22,12 @@
     "start": "concurrently \"yarn run producer\" \"yarn run consumer\"",
     "producer": "nodemon example/producer.js",
     "consumer": "nodemon example/consumer.js"
-  }
+  },
+  "keywords": [
+    "redis",
+    "kue",
+    "queue",
+    "concurrency",
+    "rpc"
+  ]
 }
