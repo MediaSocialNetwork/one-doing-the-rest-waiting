@@ -5,8 +5,8 @@ const consumer = require('../src').createConsumer({
 consumer.register(channel => {
   console.log('registerConsumer', channel.id);
 
-  channel.onRequest((command, done) => {
-    console.log('onRequest', command);
+  channel.onRequest((request, done) => {
+    console.log('onRequest', request);
 
     // do somthing
     setTimeout(() => {
