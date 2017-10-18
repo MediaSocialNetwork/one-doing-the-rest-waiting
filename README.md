@@ -1,4 +1,4 @@
-OneDoingTheRestWaiting - ODTRW 1.0.4
+OneDoingTheRestWaiting - ODTRW 1.0.5
 =====
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
@@ -30,7 +30,7 @@ producer.discovery(channel => {
     .onResponse(response => {
       console.log('The task response: ', response);
     })
-    .call(); // send your request
+    .send(); // send your request
 });
 ```
 
@@ -98,7 +98,7 @@ Sugar method to set `config.waitFor`
 
 Register callback that handles request's response
 
-## message.call()
+## message.send()
 Send the message
 
 ## consumer.register(callback)

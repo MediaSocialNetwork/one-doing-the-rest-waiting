@@ -1,3 +1,4 @@
+const debug = require('debug')('odtrw');
 const pick = require('object.pick');
 const uuid = require('uuid');
 
@@ -45,6 +46,11 @@ class Message {
   }
 
   call(done) {
+    debug(`Message.call() is deprecated, use Message.send()`);
+    this._channel.send(this, done);
+  }
+
+  send(done) {
     this._channel.send(this, done);
   }
 

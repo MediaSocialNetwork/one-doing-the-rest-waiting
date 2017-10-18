@@ -14,10 +14,8 @@ app.get('/robots.txt', (req, res, next) => res.sendStatus(404));
 app.get('/:hog', (req, res, next) => {
   let { hog } = req.params;
 
-  // RPC with message identified by {key}
-  // other RPCs later with same key will wait until first RPC finish
-
-  // interface
+  // RPC with message identified by {hog}
+  // other RPCs later with same `waitFor` will wait until first RPC finish
   let channel = app.get('rpc');
 
   channel
@@ -28,7 +26,7 @@ app.get('/:hog', (req, res, next) => {
     .onResponse(response => {
       res.json(response);
     })
-    .call();
+    .send();
 });
 
 producer.discovery(channel => {

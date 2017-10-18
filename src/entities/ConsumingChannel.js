@@ -48,7 +48,7 @@ class ConsumingChannel extends Channel {
           src: message.dest,
           data: response
         })
-        .call();
+        .send();
     })
 
     pendingList.length = 0;
