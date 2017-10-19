@@ -1,4 +1,4 @@
-OneDoingTheRestWaiting - ODTRW 1.0.5
+OneDoingTheRestWaiting - ODTRW 1.0.6
 =====
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
@@ -57,7 +57,7 @@ consumer.register(channel => {
 
 ## createProducer(config)
 * `config` {Object}
-  * `redis` {Object} redis config for Kue
+  * `kue` {Object} configuration for [kue.createQueue()](https://github.com/Automattic/kue#redis-connection-settings)
   * `prefix` {String} prefix for queue names
 * return: a `Producer` instance
 
@@ -65,7 +65,7 @@ Factory method to create a `Producer` instance
 
 ## createConsumer(config)
 * `config` {Object}
-  * `redis` {Object} redis config for Kue
+  * `kue` {Object} configuration for [kue.createQueue()](https://github.com/Automattic/kue#redis-connection-settings)
   * `prefix` {String} prefix for queue names
 * return: a `Consumer` instance
 

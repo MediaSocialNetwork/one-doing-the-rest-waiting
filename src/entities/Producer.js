@@ -9,7 +9,7 @@ class Producer {
   }
 
   constructor(props = {}) {
-    this._queue = kue.createQueue(props.redis);
+    this._queue = kue.createQueue(props.kue);
     this._prefix = props.prefix || '';
   }
 
