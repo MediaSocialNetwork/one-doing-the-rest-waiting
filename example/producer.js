@@ -29,8 +29,8 @@ app.get('/:hog', (req, res, next) => {
     .send();
 });
 
-producer.discovery(channel => {
-  console.log('discovery channel', channel._bind);
+producer.discover(channel => {
+  console.log('discover channel', channel._bind);
 
   app.set('rpc', channel);
 

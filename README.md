@@ -1,4 +1,4 @@
-OneDoingTheRestWaiting - ODTRW 1.0.6
+OneDoingTheRestWaiting - ODTRW 1.0.7
 =====
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
@@ -18,7 +18,7 @@ const producer = rpc.createProducer({
   prefix: 'example:' // prefix for Kue queue
 });
 
-producer.discovery(channel => {
+producer.discover(channel => {
   channel
     .request('very-long-async-task', {
       param1: 'your-param-1',
@@ -71,7 +71,7 @@ Factory method to create a `Producer` instance
 
 Factory method to create a `Consumer` instance
 
-## producer.discovery(callback)
+## producer.discover(callback)
 * `callback` {Function} with parameters
   * `channel` {ProducingChannel}
 

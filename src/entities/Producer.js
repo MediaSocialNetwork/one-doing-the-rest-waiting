@@ -13,7 +13,7 @@ class Producer {
     this._prefix = props.prefix || '';
   }
 
-  discovery(done, interval = 1000) {
+  discover(done, interval = 1000) {
     this._queue
       .create(`${this._prefix}request-channel`)
       .ttl(interval)
