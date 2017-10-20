@@ -12,7 +12,7 @@ class ConsumingChannel extends Channel {
     super(props);
     this._pendingLists = {};
 
-    this._listen(`${this.prefix}channel:${this.id}:inbox`, this._handleRequest.bind(this));
+    this._listen(`channel:${this.id}:inbox`, this._handleRequest.bind(this));
   }
 
   _handleRequest(message) {

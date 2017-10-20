@@ -1,4 +1,4 @@
-OneDoingTheRestWaiting - ODTRW 1.0.7
+OneDoingTheRestWaiting - ODTRW 1.0.8
 =====
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]
@@ -15,7 +15,7 @@ npm install one-doing-the-rest-waiting
 // producer.js
 const rpc = require('one-doing-the-rest-waiting');
 const producer = rpc.createProducer({
-  prefix: 'example:' // prefix for Kue queue
+  prefix: 'example' // prefix for Kue queue
 });
 
 producer.discover(channel => {
@@ -38,7 +38,7 @@ producer.discover(channel => {
 // consumer.js
 const rpc = require('one-doing-the-rest-waiting');
 const consumer = rpc.createConsumer({
-  prefix: 'example:' // prefix for Kue queue
+  prefix: 'example' // prefix for Kue queue
 });
 
 consumer.register(channel => {
@@ -56,17 +56,13 @@ consumer.register(channel => {
 # APIs
 
 ## createProducer(config)
-* `config` {Object}
-  * `kue` {Object} configuration for [kue.createQueue()](https://github.com/Automattic/kue#redis-connection-settings)
-  * `prefix` {String} prefix for queue names
+* `config` {Object} configuration for [kue.createQueue()](https://github.com/Automattic/kue#redis-connection-settings)
 * return: a `Producer` instance
 
 Factory method to create a `Producer` instance
 
 ## createConsumer(config)
-* `config` {Object}
-  * `kue` {Object} configuration for [kue.createQueue()](https://github.com/Automattic/kue#redis-connection-settings)
-  * `prefix` {String} prefix for queue names
+* `config` {Object} configuration for [kue.createQueue()](https://github.com/Automattic/kue#redis-connection-settings)
 * return: a `Consumer` instance
 
 Factory method to create a `Consumer` instance

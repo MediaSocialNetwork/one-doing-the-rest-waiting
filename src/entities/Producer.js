@@ -8,18 +8,17 @@ class Producer {
     return new Producer(props);
   }
 
-  constructor(props = {}) {
-    this._queue = kue.createQueue(props.kue);
-    this._prefix = props.prefix || '';
+  constructor(props) {
+    console.log(props);
+    this._queue = kue.createQueue(props);
   }
 
   discover(done, interval = 1000) {
     this._queue
-      .create(`${this._prefix}request-channel`)
+      .create(`request-channel`)
       .ttl(interval)
       .on('complete', consumerChannelId => {
         let channel = ProducingChannel.create({
-          prefix: this._prefix,
           queue: this._queue
         }).bindTo(consumerChannelId);
 
