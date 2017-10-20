@@ -1,4 +1,4 @@
-OneDoingTheRestWaiting - ODTRW 1.0.8
+OneDoingTheRestWaiting - ODTRW 1.0.9
 =====
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][npm-url]

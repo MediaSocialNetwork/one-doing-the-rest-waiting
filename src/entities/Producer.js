@@ -9,7 +9,6 @@ class Producer {
   }
 
   constructor(props) {
-    console.log(props);
     this._queue = kue.createQueue(props);
   }
 
